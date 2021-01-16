@@ -103,7 +103,7 @@ router.post(
 );
 
 //@route    GET api/profile
-//@desc     GET All progiles
+//@desc     GET All profiles
 //@access   Public
 router.get("/", async (req, res) => {
   try {
