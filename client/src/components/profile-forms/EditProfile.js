@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
-import { setAlert } from "../../actions/alert";
 import { Link, withRouter } from "react-router-dom";
 
 const EditProfile = ({ history }) => {
@@ -69,7 +68,6 @@ const EditProfile = ({ history }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(createProfile(formData, history, true));
-    dispatch(setAlert("Profile Edited", "success"));
   };
 
   return (

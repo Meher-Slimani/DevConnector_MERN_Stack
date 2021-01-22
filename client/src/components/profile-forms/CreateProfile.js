@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createProfile } from "../../actions/profile";
-import { setAlert } from "../../actions/alert";
 import { Link, withRouter } from "react-router-dom";
 
 const CreateProfile = ({ history }) => {
@@ -46,7 +45,6 @@ const CreateProfile = ({ history }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(createProfile(formData, history));
-    dispatch(setAlert("Profile Created", "success"));
   };
 
   return (
