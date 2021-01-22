@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createProfile } from "../../actions/profile";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createProfile, getCurrentProfile } from "../../actions/profile";
 import { setAlert } from "../../actions/alert";
 import { Link, withRouter } from "react-router-dom";
 
-const CreateProfile = ({ history }) => {
+const EditProfile = ({ history }) => {
   const [formData, setFormData] = useState({
     company: "",
     website: "",
@@ -37,6 +37,29 @@ const CreateProfile = ({ history }) => {
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
+  const userProfile = useSelector((state) => state.profile);
+
+  const { profile, loading } = userProfile;
+
+  useEffect(() => {
+    getCurrentProfile();
+    setFormData({
+      company: loading || !profile.company ? "" : profile.company,
+      website: loading || !profile.website ? "" : profile.website,
+      location: loading || !profile.location ? "" : profile.location,
+      status: loading || !profile.status ? "" : profile.status,
+      skills: loading || !profile.skills ? "" : profile.skills.join(","),
+      githubusername:
+        loading || !profile.githubusername ? "" : profile.githubusername,
+      bio: loading || !profile.bio ? "" : profile.bio,
+      twitter: loading || !profile.social ? "" : profile.social.twitter,
+      facebook: loading || !profile.social ? "" : profile.social.facebook,
+      linkedin: loading || !profile.social ? "" : profile.social.linkedin,
+      youtube: loading || !profile.social ? "" : profile.social.youtube,
+      instagram: loading || !profile.social ? "" : profile.social.instagram,
+    });
+  }, [loading]);
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -45,8 +68,8 @@ const CreateProfile = ({ history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProfile(formData, history));
-    dispatch(setAlert("Profile Created", "success"));
+    dispatch(createProfile(formData, history, true));
+    dispatch(setAlert("Profile Edited", "success"));
   };
 
   return (
@@ -248,7 +271,7 @@ const CreateProfile = ({ history }) => {
           </>
         )}
         <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" href="/dashboard">
+        <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
         </Link>
       </form>
@@ -256,4 +279,4 @@ const CreateProfile = ({ history }) => {
   );
 };
 
-export default withRouter(CreateProfile);
+export default withRouter(EditProfile);
