@@ -7,7 +7,7 @@ const config = require("config");
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
 
-//@route    GET api/users
+//@route    GET api/auth
 //@desc     Auth route
 //@access   Public
 router.get("/", auth, async (req, res) => {
@@ -15,6 +15,7 @@ router.get("/", auth, async (req, res) => {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (error) {
+    console.log(error.message);
     res.status(500).send("Server Error");
   }
 });
